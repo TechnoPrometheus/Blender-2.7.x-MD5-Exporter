@@ -1,41 +1,40 @@
-# ##### BEGIN GPL LICENSE BLOCK #####
-#
-#  This program is free software; you can redistribute it and/or
-#  modify it under the terms of the GNU General Public License
-#  as published by the Free Software Foundation; either version 2
-#  of the License, or (at your option) any later version.
-#
-#  This program is distributed in the hope that it will be useful,
-#  but WITHOUT ANY WARRANTY; without even the implied warranty of
-#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#  GNU General Public License for more details.
-#
-#  You should have received a copy of the GNU General Public License
-#  along with this program; if not, write to the Free Software Foundation,
-#  Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
-#
-# ##### END GPL LICENSE BLOCK #####
+'''
+MIT License
+
+Copyright (c) 2017 Stefano Peris
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+'''
 
 # <pep8 compliant>
 
 #"""
 #Name: 'idTech 4 (.md5)...'
-#Blender: 266
+#Blender: 2.7
 #Group: 'Export'
 #Tooltip: 'Export idTech 4 MD5'
 #
 #"""
 
-# v1.1.0 - Gert De Roost adds bones export filtering and bone reparenting
-# v1.0.6 - CodeManX fixed whatever was there left to fix :)
-# v1.0.5 - Mike Campagnini fixed previous fix
-# v1.0.4 - CodeManX fixed GUI for Blender 2.66
-# v1.0.3 - Mike Campagnini made scale work again, even for baseframe mesh;
-# v1.0.2 - motorsep's fugly hack to flip orientation values for baseframe {}; otherwise idTech 4 ragdolls break;
-
 bl_info = { # changed from bl_addon_info in 2.57 -mikshaw
-			"name": "Export idTech4 (.md5) by CodemanX 09/12/2013",
-			"author": "Paul Zirkle aka Keless, credit to der_ton",
+			"name": "Export idTech4 (.md5)",
+			"author": "Paul Zirkle aka Keless, Stefano Peris aka TechnoPrometheus",
 			"version": (1, 1, 0),
 			"blender": (2, 65, 4),
 			"location": "File > Export > Skeletal Mesh/Animation Data (.md5mesh/.md5anim)",
@@ -44,7 +43,7 @@ bl_info = { # changed from bl_addon_info in 2.57 -mikshaw
 			"wiki_url": "http://wiki.blender.org/index.php/Extensions:2.5/Py/"\
 						"Scripts/File_I-O/idTech4_md5",
 			"tracker_url": "http://www.katsbits.com/smforum/index.php?topic=167.0",
-			"category": "Import-Export" } # changed from "Import/Export" -katsbits
+			"category": "Import-Export" }
 
 import bpy, struct, math, os, time, sys, mathutils
 from bpy.app.handlers import persistent
@@ -86,6 +85,7 @@ def vector_by_matrix(p, m):
 #	 Vector((1,0,0))
 # else:
 #	 Vector.normalized()
+
 def vector_normalize(v):
 	l = math.sqrt(v[0] * v[0] + v[1] * v[1] + v[2] * v[2])
 	try:
@@ -1301,13 +1301,13 @@ def register():
 			description = "Reparenting to this bone for export",
 			default = "")								
 	
-	bpy.utils.register_module(__name__) #mikshaw
+	bpy.utils.register_module(__name__)
 	bpy.types.INFO_MT_file_export.append(menu_func)
 	bpy.app.handlers.save_pre.append(fakeuser_for_actions)
 	bpy.app.handlers.scene_update_post.append(sceneupdate_handler)
 
 def unregister():
-	bpy.utils.unregister_module(__name__) #mikshaw
+	bpy.utils.unregister_module(__name__)
 	bpy.types.INFO_MT_file_export.remove(menu_func)
 	bpy.app.handlers.save_pre.remove(fakeuser_for_actions)
 	bpy.app.handlers.scene_update_post.remove(sceneupdate_handler)
